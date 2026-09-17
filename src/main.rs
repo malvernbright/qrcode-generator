@@ -127,7 +127,7 @@ async fn generate_qr(mut multipart: Multipart) -> impl IntoResponse {
     let logo_res = if let Some(bytes) = uploaded_logo_bytes {
         image::load_from_memory(&bytes)
     } else {
-        let default_bytes = include_bytes!("logo.png");
+        let default_bytes = include_bytes!("logo.jpeg");
         image::load_from_memory(default_bytes)
     };
 

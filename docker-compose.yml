@@ -1,0 +1,31 @@
+services:
+  qr-api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: qr_service
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - RUST_LOG=info
+      # Ready for future SQLx integration
+      # DATABASE_URL=postgres://admin:secret@postgres-db:5432/qr_analytics
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: qr_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: qr_analytics
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
